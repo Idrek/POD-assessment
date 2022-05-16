@@ -17,4 +17,8 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
     <PackageReference Update="FSharp.Core" Version="4.*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\POD.fsproj" />
+  </ItemGroup>
 </Project>
