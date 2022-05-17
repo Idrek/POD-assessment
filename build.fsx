@@ -36,12 +36,23 @@ Target.create "RunTests" (fun _ ->
         (Seq.singleton assemblyName) 
 )
 
+Target.create "CreatePackage" (fun _ ->
+    let project : string = "./src/POD.fsproj"
+    let packConfiguration (defaults: DotNet.PackOptions) =
+        { defaults with
+            Configuration = DotNet.Release
+            OutputPath = Some "./packages"
+        }
+    DotNet.pack packConfiguration project
+)
+
 Target.create "All" ignore
 
 "Clean" 
     ==> "BuildApp" 
     ==> "BuildTests"
     ==> "RunTests"
+    ==> "CreatePackage"
     ==> "All"
 
 Target.runOrDefault "All"
