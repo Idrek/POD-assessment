@@ -1,5 +1,6 @@
 #r "paket:
 nuget Fake.DotNet.Cli
+nuget Fake.DotNet.Testing.Expecto
 nuget Fake.IO.FileSystem
 nuget Fake.Core.Target //"
 
@@ -28,11 +29,19 @@ Target.create "BuildTests" (fun _ ->
     |> Seq.iter (DotNet.build id)
 )
 
+Target.create "RunTests" (fun _ ->
+    let assemblyName : string = "./test/bin/Release/net6.0/PODTest.dll"
+    Fake.DotNet.Testing.Expecto.run
+        (fun parameters -> { parameters with WorkingDirectory = "."}) 
+        (Seq.singleton assemblyName) 
+)
+
 Target.create "All" ignore
 
 "Clean" 
     ==> "BuildApp" 
     ==> "BuildTests"
+    ==> "RunTests"
     ==> "All"
 
 Target.runOrDefault "All"
