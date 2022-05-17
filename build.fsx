@@ -23,10 +23,16 @@ Target.create "BuildApp" (fun _ ->
     |> Seq.iter (DotNet.build id)
 )
 
+Target.create "BuildTests" (fun _ ->
+    !! "test/**/*.*proj"
+    |> Seq.iter (DotNet.build id)
+)
+
 Target.create "All" ignore
 
 "Clean" 
     ==> "BuildApp" 
+    ==> "BuildTests"
     ==> "All"
 
 Target.runOrDefault "All"
