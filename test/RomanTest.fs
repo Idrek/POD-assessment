@@ -21,7 +21,9 @@ let tests =
 
           testList
               "Decimal number to roman"
-              [ testCase "Number 0"
+              [ testCase "Negative number"
+                <| fun _ -> Expect.equal None (R.fromDecimal -1) "No conversion for negative numbers"
+                testCase "Number 0"
                 <| fun _ -> Expect.equal None (R.fromDecimal 0) "No conversion from decimal 0 to roman"
                 testCase "Roman overflow"
                 <| fun _ ->
